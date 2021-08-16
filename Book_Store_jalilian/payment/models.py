@@ -3,7 +3,7 @@ from django.db import models
 
 from accounts.models import CustomUser
 """
-a model for orders
+a model for orders = invoice
 """
 
 
