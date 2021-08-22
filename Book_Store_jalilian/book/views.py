@@ -54,20 +54,18 @@ def Book_detail_view(request, productId=None, *args, **kwargs):
 
 
 """
-search data by title
+search data by title,author
 """
+from django.db.models import Q
 
 
 def SearchBookByTitle(request):
     q = request.GET['query']
-    mydictionary = {
-        "books_all" : Book.objects.filter(title__icontains=q),
-    }
-    return render(request,'all_books.html',context=mydictionary)
 
-# def SearchBookByAuthor(request):
-#     q = request.GET['query']
-#     mydictionary = {
-#         "books_all" : Book.objects.filter(title__icontains=q),
-#     }
-#     return render(request,'all_books.html',context=mydictionary)
+    products=Book.objects.filter(Q(title__icontains=q) | Q(author__full_name__icontains=q))
+
+    mydictionary = {
+     
+        "products" :products,
+    }
+    return render(request,'index.html',context=mydictionary)
