@@ -1,25 +1,21 @@
 """
 here we register our invoice and invoiceline
 """
-
 from django.contrib import admin
 
 # Register your models here.
-from .models import Invoice,InvoiceLine,BasketDiscount,ProductDiscount
-<<<<<<< HEAD
 
-=======
->>>>>>> 440810b4aa0bc30c35a901515365524cbf32eca3
+from .models import *
 
 
-admin.site.register(InvoiceLine)
-admin.site.register(BasketDiscount)
-admin.site.register(ProductDiscount)
-<<<<<<< HEAD
+class ItemInLine(admin.TabularInline):
+    model = ItemOrder
+    readonly_fields = ['customer', 'product', 'quantity']
 
-@admin.register(Invoice)
-class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ['id','invoice_date','complete']
-=======
->>>>>>> 440810b4aa0bc30c35a901515365524cbf32eca3
 
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['customer','email','l_name','address','paid','get_price']
+    # inlines = [ItemInLine]
+
+admin.site.register(Order,OrderAdmin)
+admin.site.register(ItemOrder)

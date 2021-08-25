@@ -8,18 +8,44 @@
             <div class="row " >
                 <div class="col-sm-6 ">
 
-                    <img src="{{ book.image.url }}" alt="{{ book.title }} " width="645px "
+                    <img src="{{ product.image.url }}" alt="{{ product.title }} " width="645px "
                          style="border-top-right-radius:100px; ">
                 </div>
                 <div class="col-sm-6  ">
-                    <h2>{{ books_obj.title }}</h2>
-                    <p>{{books_obj.author }}</p>
-                    <p>{{books_obj.description }}</p>
-                    <p>{{ books_obj.category }}</p>
-                    <p>{{ books_obj.price}}</p>
+                    <h2>{{ product.title }} </h2>
+                    <p> نویسنده:{{product.author }}</p>
+                    <p>توضیحات :{{product.description }} </p>
+                    <p>دسته بندی :{{ product.category }} </p>
+                    <p>قیمت:{{ product.unit_price}} </p>
+                    <p>قیمت کل :{{ product.total_price}} </p>
 
                 </div>
 
               </div>
         </div>
+
+
+
+
+
+{#    card add form#}
+    <div class="card">
+    <form method="post"  action=" {% url 'add_cart' product.id %}">
+        {% csrf_token %}
+{#        {{ cart_form }}#}
+        <label>
+            <input type="number" name="quantity" min="1" value="1" max="{{ product.inventory }}">
+        </label>
+        <button type="submit"> اضافه به سبد خرید</button>
+    </form>
+    </div>
+
+
+
+
+
+
+
+
+
 {% endblock content %}

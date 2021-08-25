@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'payment',
     'book',
     'coupon',
+    'cart',
 
 ]
 
@@ -145,4 +146,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'collect_static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'medias')
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
 

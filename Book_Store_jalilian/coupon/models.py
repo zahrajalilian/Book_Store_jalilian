@@ -2,58 +2,68 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
+from django.db import models
 
 # Create your models here.
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
-
-class PercentDiscountMixin(models.Model):
+class Discount(models.Model):
     """
-    Apply ``amount`` percent discount to whole cart.
-    """
-    amount = models.DecimalField(_('Amount'), max_digits=5, decimal_places=2)
 
-    def get_extra_cart_price_field(self, cart, request=None):
-        amount = (self.amount/100) * cart.subtotal_price
-        return (self.get_name(), amount,)
+    a base model for our other discount models
+    """
+    DISCOUNT_CHOICES = [('C', 'مقداری'), ('P', 'درصدی'),('S','امتیازی')]
+    discount_type = models.CharField(choices=DISCOUNT_CHOICES, default='C', max_length=5)
+    cash_discount = models.PositiveIntegerField(verbose_name='مقدار تخفیف نقدی',  default=0)
+    percent_discount = models.PositiveIntegerField(verbose_name='مقدار تخفیف درصدی', default=0)
+    star_discount = models.PositiveIntegerField('تخفیف امتیازی',default=0)
+    validate_date = models.DateTimeField(verbose_name='تاریخ اعمال کد تخفیف', )
+    expire_date = models.DateTimeField(verbose_name='تاریخ اعتبار کد تخفیف', )
+    active = models.BooleanField('وضعیت تخفیف', default=False)
 
     class Meta:
         abstract = True
 
+    def active_status(self):
+        if self.expire_date <= timezone.now():
+            self.active = False
+            self.save()
+        return self.active
 
-class CartItemPercentDiscountMixin(models.Model):
+
+class BasketDiscount(Discount):
+    class Meta:
+        verbose_name = 'تخفیف کددار'
+        verbose_name_plural = 'تخفیف های کددار'
+
+    code_discount = models.CharField(verbose_name='کد تخفیف', max_length=100, unique=True)
+
+    def _str_(self):
+        return f'The deadline of discount  {self.id} is {self.expire_date}'
+
+
+class ProductDiscount(Discount):
     """
-    Apply ``amount`` percent discount to eligible_products in Cart.
+    discount in book
     """
-    amount = models.DecimalField(_('Amount'), max_digits=5, decimal_places=2)
-
-    def get_extra_cart_item_price_field(self, cart_item, request=None):
-        if self.is_eligible_product(cart_item.product, cart_item.cart):
-            return (self.get_name(),
-                    self.calculate_discount(cart_item.line_subtotal))
-
-    def calculate_discount(self, price):
-        return (self.amount/100) * price
 
     class Meta:
-        abstract = True
+        verbose_name = 'تخفیف کتاب'
+        verbose_name_plural = 'تخفیف هایکتاب'
+
+    title = models.CharField('نام تخفیف نقدی', max_length=100, unique=True)
+    max_purchase = models.IntegerField(verbose_name='سقف تخفیف', default=0)
+
+    # @property
+    # def cash_discount(self):
+    #     """
+    #     اگر تخفیف از سقف یخفیفی که در نظر گرفتیم بیشتر باشد به ما سقف تخفیفی را بر میگرداند
+    #     :return:
+    #     """
+    #     if self.max_purchase < self.cash_discount:
+    #         self.cash_discount = self.max_purchase
+    #         self.save()
 
 
-class CartItemAbsoluteDiscountMixin(models.Model):
-    """
-    Apply ``amount`` discount to eligible_products in Cart.
-    """
-    amount = models.DecimalField(_('Amount'), max_digits=5, decimal_places=2)
-
-    def get_extra_cart_item_price_field(self, cart_item, request=None):
-        if self.is_eligible_product(cart_item.product, cart_item.cart):
-            return (self.get_name(),
-                    self.calculate_discount(cart_item.line_subtotal))
-
-    def calculate_discount(self, price):
-        return self.amount
-
-    class Meta:
-        abstract = True
-
+    def _str_(self):
+        return f'{self.title}'
