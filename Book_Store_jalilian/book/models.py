@@ -4,8 +4,8 @@ from django.db import models
 from django.db import models
 from django.urls import reverse
 from django_extensions.db.fields import AutoSlugField
-from coupon.models import ProductDiscount
 
+from coupon.models import ProductDiscount
 
 # Create your models here.
 

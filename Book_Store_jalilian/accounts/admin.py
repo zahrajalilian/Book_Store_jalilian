@@ -44,4 +44,6 @@ class AdminAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return CustomUser.objects.filter(is_staff=True,is_superuser=True)
 
+
     list_display = ['email', 'username']
+

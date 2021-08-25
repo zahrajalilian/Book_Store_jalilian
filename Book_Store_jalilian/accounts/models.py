@@ -1,7 +1,8 @@
 
+
 from django.contrib.auth.base_user import BaseUserManager
+
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 
 
 from django.contrib.auth.base_user import BaseUserManager
@@ -70,7 +71,6 @@ class MyUserManager(BaseUserManager):
 
 
 
-
 class Address(models.Model):
     """
        a model with many to many relationship with CustomUser
@@ -101,10 +101,9 @@ admin
 class CustomUser(AbstractUser):
 
 
+
     GENDER_CHOICES = [('M', 'Male'), ('F', 'Female'), ('U', 'Unknown')]
     username = models.CharField(max_length=200)
-    GENDER_CHOICES = [('M', 'Male'), ('F', 'Female'), ('U', 'Unknown')]
-    username = models.CharField(max_length=200,unique=True)
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     email = models.EmailField(unique=True)
@@ -114,13 +113,13 @@ class CustomUser(AbstractUser):
     phone = models.IntegerField(null=True, blank=True)
     fax = models.IntegerField(null=True, blank=True)
 
-    objects = MyUserManager()
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    # objects = MyUserManager()
+    # USERNAME_FIELD = 'email'
+    # REQUIRED_FIELDS = []
+
 
     def register(self):
         self.save()
-
 
     @staticmethod
     def get_customer_by_email(email):
@@ -129,16 +128,11 @@ class CustomUser(AbstractUser):
         except:
             return False
 
-
     def isExists(self):
         if CustomUser.objects.filter(email = self.email):
             return True
 
         return False
-
-
-    # objects = MyUserManager()
-
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -152,10 +146,9 @@ class CustomerProxy(CustomUser):
 class StaffProxy(CustomUser):
     class Meta:
         proxy = True
-        # permissions=['']
+
 
 class AdminProxy(CustomUser):
     class Meta:
         proxy = True
-
 

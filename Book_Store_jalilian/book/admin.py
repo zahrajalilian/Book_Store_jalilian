@@ -29,3 +29,4 @@ class AdminAuthor(admin.ModelAdmin):
     list_display = [
         'full_name',
     ]
+

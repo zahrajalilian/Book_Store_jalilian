@@ -6,8 +6,3 @@ urlpatterns = [
     path('books/<slug>', BookDetailView,name='book_detail'),
     path('booksbytitle/', SearchBookByTitle, name='book_title'),
     ]
-
-
-
-
-
