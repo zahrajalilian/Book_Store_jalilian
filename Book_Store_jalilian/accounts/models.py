@@ -14,58 +14,6 @@ from django_countries.fields import CountryField
 # Create your models here.
 
 
-class MyUserManager(BaseUserManager):
-    def create_user(self, email, username, password=None):
-        """
-        Creates and saves a User with the given email, username
-         and password.
-        """
-        if not email:
-            raise ValueError('Users must have an email address')
-
-        user = self.model(
-            email=self.normalize_email(email),
-            username=username,
-        )
-
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_staff(self, email, username, password=None):
-        """
-        Creates and saves a staff with the given email, username
-        and password.
-        """
-        user = self.create_user(
-            email,
-            password=password,
-            username=username,
-        )
-        user.is_admin = False
-        user.is_staff = True
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, email, username, password=None):
-
-            """
-            Creates and saves a superuser with the given email, username
-             and password.
-            """
-            user = self.create_user(
-                email,
-                password=password,
-                username=username,
-            )
-            user.is_admin = True
-            user.is_staff = True
-            user.save(using=self._db)
-            return user
-
-
-
-
 
 
 
