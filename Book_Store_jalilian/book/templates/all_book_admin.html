@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <table class="table table-hover table-dark">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">نام کتاب</th>
+      <th scope="col">نویستده</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for product in products %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+       <td></td>
+      <td>{{ product.title }}</td>
+      <td>{{ product.author.full_name }}</td>
+      <td>
+           <a href=" {{ product.get_absolute_url }}" >جزییات</a>
+      </td>
+
+
+          <td>
+        <a href="{% url 'book_edit' product.pk %}"> edit</a>
+
+    </td>
+
+
+        <td>
+        <a href="{% url 'book_delete' product.pk %}"> remove</a>
+
+    </td>
+
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+{% endblock content %}

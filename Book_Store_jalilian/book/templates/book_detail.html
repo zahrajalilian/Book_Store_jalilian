@@ -32,7 +32,7 @@
     <div class="card">
     <form method="post"  action=" {% url 'add_cart' product.id %}">
         {% csrf_token %}
-{#        {{ cart_form }}#}
+
         <label>
             <input type="number" name="quantity" min="1" value="1" max="{{ product.inventory }}">
         </label>
@@ -40,10 +40,11 @@
     </form>
     </div>
 
+{% if user.is_staff %}
+<a href="{% url 'book_edit' product.pk %}" class="btn btn-warning"> Edit  </a>
+    <p><a href="{% url 'book_delete' product.pk %}" class="btn btn-danger" >  Delete  </a></p>
 
-
-
-
+{% endif %}
 
 
 
