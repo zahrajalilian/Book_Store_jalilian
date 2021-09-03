@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+
+<div class="card">
+  <h5 class="card-header">تغییر پسورد</h5>
+  <div class="card-body">
+
+    <form method="post" action="">
+        {% if validlink %}
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">تغییر پسورد</button>
+    </form>
+        {% endif %}
+
+
+  </div>
+</div>
+{% endblock %}

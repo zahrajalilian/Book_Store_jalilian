@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{#{% block title %}profile {% endblock %}#}
+{% block content %}
+
+
+
+
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">پروفایل</h5>
+         <h6 class="card-subtitle mb-2 text-muted">user :{{ profile.user.username }}</h6>
+
+        <h6 class="card-subtitle mb-2 text-muted">اسم:{{ profile.user.first_name }}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">نام خانوادگی :{{ profile.user.last_name }}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">email :{{ profile.user.email }}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">company :{{ profile.company }}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">fax :{{ profile.fax}}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">phone :{{ profile.phone }}</h6>
+
+          <a href="{% url 'update' profile.pk %}" class="btn btn-warning"> Edit  </a>
+
+            <a href="{% url 'change'%}" class="btn btn-warning"> change password </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">ادرس</h5>
+        <p class="card-text"><a href="{% url 'list_address' %}" class="btn btn-info"> manage address </a>
+            <a href="{% url 'address_new'%}" class="btn btn-info"> add addresses </a></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+

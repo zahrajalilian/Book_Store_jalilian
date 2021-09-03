@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+
+   <div class="container">
+       <h4> total price:{{ order.get_price }}</h4>
+   <form action="{% url 'coupon_order' order.id %}" method="post"> {% csrf_token %}
+       {{ forms }}
+            <button type="submit" class="btn btn-info">coupon</button>
+   </form>
+   </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">درگاه بانکی</h5>
+          <button type="submit" class="btn btn-info">
+        <a href="{% url 'request' order.id order.get_price %}">پرداخت</a> </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock content %}

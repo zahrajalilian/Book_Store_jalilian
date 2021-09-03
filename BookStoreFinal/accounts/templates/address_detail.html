@@ -1,0 +1,18 @@
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="card" style="width: 50rem;">
+  <div class="card-body">
+
+    <p class="card-text">
+        address :{{ object.country}},
+          {{ object.state }} ,{{object.city }} {{ object.street }} ,{{ object.street_2 }}
+          {{ object.postal_code }}
+
+      </p>
+
+  </div>
+</div>
+{% endblock content %}

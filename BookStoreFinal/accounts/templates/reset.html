@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+
+
+
+
+<div class="card">
+  <h5 class="card-header">ایمیل</h5>
+  <div class="card-body">
+    <form action = "" method="post" >
+        {% csrf_token %}
+
+{{ form|crispy }}
+    <button type="submit" class="btn btn-primary"> فرستادن </button>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

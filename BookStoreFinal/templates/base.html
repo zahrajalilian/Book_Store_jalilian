@@ -1,0 +1,212 @@
+<!doctype html>
+{% load static %}
+<html lang="ar" dir="rtl">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+          integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<!--      messages related-->
+<!-- Prism CSS -->
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- Compiled and minified CSS -->
+
+    <!-- Compiled and minified JavaScript -->
+
+      <style>
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
+</style>
+
+  </head>
+  <body>
+
+{% include 'messege.html'%}
+
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Book Store</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><i class="glyphicon glyphicon-home"></i></a>
+        </li>
+
+        <li class="nav-item active ">
+          <a class="nav-link" href="{% url 'cart_detail' %}" ><i style="font-size:24px" class="fa">&#xf07a;</i> <span class="sr-only"></span></a>
+        </li>
+       {% if user.is_authenticated %}
+
+         <li class="nav-item active ">
+          <a class="nav-link"  href="{% url 'history' %}"><i class="glyphicon glyphicon-file"></i><span class="sr-only"></span></a>
+        </li>
+           <li class="nav-item active ">
+          <a class="nav-link"  href="{% url 'profile' %}"><i class="glyphicon glyphicon-user"></i><span class="sr-only"></span></a>
+        </li>
+
+
+           <li class="nav-item active ">
+          <a class="nav-link"  href="{% url 'logout' %}">خروج<span class="sr-only"></span></a>
+        </li>
+
+
+        {% else %}
+
+
+        <li class="nav-item active">
+          <a class="nav-link"  href="{% url 'login' %}">ورود<span class="sr-only"></span></a>
+        </li>
+           <li class="nav-item active">
+          <a class="nav-link"  href="{% url 'user_register' %}">ثبت نام<span class="sr-only"></span></a>
+        </li>
+
+        {% endif %}
+
+
+     {% if user.is_authenticated and user.is_staff %}
+
+
+
+<div id="mySidebar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <a href="{% url 'book_new' %}">ثبت کتاب</a>
+  <a href="{% url 'booklistadmin' %}">لیست همه کتاب ها</a>
+  <a href="{% url 'author_new' %}">اضافه کردن نویسنده</a>
+  <a href="{% url 'author_listadmin' %}">لیست نویسنده</a>
+  <a href="{% url 'list_category' %}">لیست دسته ها</a>
+  <a href="{% url 'category_new' %}">اضافه کردن دسته</a>
+  <a href="{% url 'discount_new' %}">اضافه کردن تخفیف</a>
+  <a href="{% url 'discount_view_list' %}">لیست تخفیف ها</a>
+</div>
+
+<div id="main">
+  <button class="openbtn" onclick="openNav()">☰ پنل </button>
+
+</div>
+
+
+
+             {% endif %}
+
+
+      </ul>
+
+
+      <form class="d-flex" action="{% url 'book_title' %}">
+        <input class="form-control me-2" type="search" placeholder="نام کتاب/ نام نویسنده" aria-label="Search"
+               name="query" id="query">
+        <button class="btn btn-outline-dark" type="submit">جستجو</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+   {% block content %}
+
+  {% endblock %}
+
+
+<script>
+function openNav() {
+  document.getElementById("mySidebar").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+
+    </script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="{% static 'js/cart.js' %}"> </script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  </body>
+</html>
